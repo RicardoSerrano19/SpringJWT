@@ -28,32 +28,29 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveUser(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public Role saveRole(Role role) {
-        // TODO Auto-generated method stub
-        return null;
+        return roleRepository.save(role);
     }
 
     @Override
     public void addRoleToUser(String username, String roleName) {
-        // TODO Auto-generated method stub
-        
+        User user = userRepository.findByUsername(username);
+        Role role = roleRepository.findByName(roleName);
+        user.getRoles().add(role);
     }
 
     @Override
     public User getUser(String username) {
-        // TODO Auto-generated method stub
-        return null;
+        return userRepository.findByUsername(username)
     }
 
     @Override
     public List<User> getUsers() {
-        // TODO Auto-generated method stub
-        return null;
+        return userRepository.findAll();
     }
     
 }
