@@ -1,12 +1,21 @@
 package com.authorization.jwt.jwtauth.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.metamodel.CollectionAttribute;
+
 import com.authorization.jwt.jwtauth.domain.Role;
 import com.authorization.jwt.jwtauth.domain.User;
 import com.authorization.jwt.jwtauth.repository.RoleRepository;
 import com.authorization.jwt.jwtauth.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +24,22 @@ import lombok.extern.slf4j.Slf4j;
 @Service 
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService, UserDetailsService{
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            log.error("User {} not found", username);
+            throw new UsernameNotFoundException("User not found");
+        }
+        log.info("User {} found", username);
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+    }
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
