@@ -2,7 +2,6 @@ package com.authorization.jwt.jwtauth.security;
 
 import com.authorization.jwt.jwtauth.filter.CustomAuthenticationFilter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
