@@ -52,8 +52,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             Authentication authResult) throws IOException, ServletException {
         User user = (User)authResult.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-        String accessToken = generateJTWToken(user, 12000, request.getRequestURL().toString(), "roles", algorithm);
-        String refreshToken = generateJTWToken(user, 24000, request.getRequestURL().toString(), algorithm);
+        String accessToken = generateJTWToken(user, 300000, request.getRequestURL().toString(), "roles", algorithm);
+        String refreshToken = generateJTWToken(user, 600000, request.getRequestURL().toString(), algorithm);
         response.setHeader("access_token", accessToken);
         response.setHeader("refresh_token", refreshToken);
         Map<String, String> tokens = new HashMap<>();
