@@ -1,7 +1,6 @@
 package com.authorization.jwt.jwtauth.filter;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
