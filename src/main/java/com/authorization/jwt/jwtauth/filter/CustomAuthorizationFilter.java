@@ -1,20 +1,14 @@
 package com.authorization.jwt.jwtauth.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.authorization.jwt.jwtauth.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -53,7 +46,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
             String token = authorizationHeader.substring("Bearer ".length());
             DecodedJWT jwt = JwtUtils.decode(token);
             UsernamePasswordAuthenticationToken authenticationToken = JwtUtils.generateAuthenticationToken(jwt);
-            
+
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 
             filterChain.doFilter(request, response);
